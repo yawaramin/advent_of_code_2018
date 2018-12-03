@@ -13,11 +13,9 @@ defmodule AdventOfCode2018.Day2 do
 
     for boxid_1 <- boxids,
         boxid_2 <- boxids,
-        boxid_1 !== boxid_2,
+        boxid_1 < boxid_2,
         diff = String.myers_difference(boxid_1, boxid_2),
         one_char_diff?(diff) do
-      # Uh, this will actually print the correct answer twice because of
-      # the nested comprehension.
       diff |> Keyword.get_values(:eq) |> IO.puts()
     end
   end
