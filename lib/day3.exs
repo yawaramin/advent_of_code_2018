@@ -3,6 +3,8 @@ defmodule AdventOfCode2018.Day3 do
   In this module all references to 'inches' mean 'square inches'.
   """
 
+  @claim_regex ~r/^#\d+ @ (\d+),(\d+): (\d+)x(\d+)$/
+
   # 109785
   def part1, do: overlapping_claimed_inches() |> MapSet.size() |> IO.puts()
 
@@ -28,12 +30,9 @@ defmodule AdventOfCode2018.Day3 do
 
   defp input, do: "day3.input" |> File.stream!() |> Stream.map(&String.trim/1)
 
-  # Clumsy hack to parse a claim into a set of claimed inches
   defp claim_inches(claim) do
-    [_claim_id, geometry] = String.split(claim, " @ ")
-    [position, dimensions] = String.split(geometry, ": ")
-    [left_inches, top_inches] = String.split(position, ",")
-    [width, height] = String.split(dimensions, "x")
+    [_claim, left_inches, top_inches, width, height] = Regex.run(@claim_regex, claim)
+
     left_inch = String.to_integer(left_inches) + 1
     top_inch = String.to_integer(top_inches) + 1
     width = String.to_integer(width)
@@ -60,3 +59,6 @@ defmodule AdventOfCode2018.Day3 do
     }
   end
 end
+
+# AdventOfCode2018.Day3.part1()
+AdventOfCode2018.Day3.part2()
